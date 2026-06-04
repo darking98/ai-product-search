@@ -11,7 +11,7 @@ export function useChat(
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: 'http://localhost:3001/api/chat/stream',
+        api: `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001/api'}/chat/stream`,
         body: conversationId ? { conversationId } : {}
       }),
     [conversationId]
