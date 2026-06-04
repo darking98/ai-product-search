@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "ecommerce-visual-search": {
+      "command": "pnpm",
+      "args": ["--filter", "backend", "mcp:dev"],
+      "cwd": "c:\\Users\\diego\\Desktop\\projects\\ai-product-search"
+    }
+  }
+}

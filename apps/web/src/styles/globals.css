@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+
+:root {
+  --duration-exit: 150ms;
+  --duration-enter: 210ms;
+  --duration-move: 400ms;
+}
+
+html {
+  background: black;
+  color: white;
+}

@@ -1,0 +1,68 @@
+### Variables
+@baseUrl = http://localhost:3000
+@productId = 1
+
+### 1. Health Check (Root)
+GET {{baseUrl}}
+
+### 2. Listar todos los productos
+GET {{baseUrl}}/products
+
+### 3. Obtener un producto específico
+GET {{baseUrl}}/products/{{productId}}
+
+### 4. Crear un nuevo producto
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "Laptop Gaming ASUS ROG",
+  "description": "Laptop de alto rendimiento con RTX 4070, ideal para gaming y trabajo profesional",
+  "price": 1599.99,
+  "stock": 15,
+  "category": "Computadoras",
+  "brand": "ASUS",
+  "image_url": "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=500",
+  "slug": "laptop-gaming-asus-rog",
+  "keywords": ["laptop", "gaming", "asus", "rog", "rtx", "computadora"]
+}
+
+### 5. Actualizar un producto
+PATCH {{baseUrl}}/products/{{productId}}
+Content-Type: application/json
+
+{
+  "price": 1499.99,
+  "stock": 12
+}
+
+### 6. Generar embedding de imagen desde URL
+POST {{baseUrl}}/products/{{productId}}/generate-image-embedding-from-url
+
+### 7. Generar embedding de texto
+POST {{baseUrl}}/products/{{productId}}/generate-text-embedding
+
+### 8. Generar embedding de imagen desde base64
+POST {{baseUrl}}/products/{{productId}}/generate-image-embedding
+Content-Type: application/json
+
+{
+  "image_base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+  "mime_type": "image/png"
+}
+
+### 9. Buscar productos similares por imagen
+POST {{baseUrl}}/products/search-by-image
+Content-Type: application/json
+
+{
+  "image_base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+  "mime_type": "image/png",
+  "limit": 5
+}
+
+### 10. Generar embeddings en lote para todos los productos
+POST {{baseUrl}}/products/batch-generate-embeddings
+
+### 11. Eliminar un producto (soft delete)
+DELETE {{baseUrl}}/products/{{productId}}
