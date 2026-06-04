@@ -40,6 +40,11 @@ export class ChatController {
     }
 
     try {
+      // Configurar headers CORS (necesario cuando usamos @Res() directamente)
+      const origin = process.env.FRONTEND_URL || 'http://localhost:3000';
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+
       // Configurar headers para SSE con UI Message Stream Protocol
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache, no-transform');
