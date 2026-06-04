@@ -71,7 +71,7 @@ export default function IndexPage({
         </div>
 
         <p className="text-sm text-gray-400 font-light tracking-wide">
-          Prueba preguntas como: "Busco un celular económico" o "Necesito
+          Prueba preguntas como: "Estoy buscando una laptop" o "Necesito
           audífonos bluetooth"
         </p>
       </div>
