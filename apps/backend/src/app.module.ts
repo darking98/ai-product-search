@@ -29,6 +29,9 @@ import { ConversationsModule } from './conversations/conversations.module';
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true, // SOLO en desarrollo - auto-crea las tablas
         logging: true, // Ver queries en consola
+        extra: {
+          client_encoding: 'UTF8',
+        },
       }),
     }),
 

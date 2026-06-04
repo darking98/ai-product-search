@@ -8,9 +8,10 @@ import { Product } from '@/interfaces/product.interface'
 
 interface ProductCardProps {
   product: Product
+  context?: string // Optional context to make ViewTransition names unique
 }
 
-const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCardComponent: React.FC<ProductCardProps> = ({ product, context }) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -19,9 +20,17 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
     ? `${pathname}?${searchParams.toString()}`
     : pathname
 
+  // Create unique ViewTransition names with optional context
+  const vtPrefix = context ? `${context}-` : ''
+
+  // Build URL with context if provided
+  const productUrl = context
+    ? `/product/${product.slug}?from=${encodeURIComponent(currentUrl)}&vtContext=${encodeURIComponent(context)}`
+    : `/product/${product.slug}?from=${encodeURIComponent(currentUrl)}`
+
   return (
     <Link
-      href={`/product/${product.slug}?from=${encodeURIComponent(currentUrl)}`}
+      href={productUrl}
       transitionTypes={['nav-forward']}
       className="block group"
     >
@@ -30,7 +39,7 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
           {/* Overlay sutil en hover */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
-          <ViewTransition name={`product-${product.slug}`} share="morph">
+          <ViewTransition name={`${vtPrefix}product-${product.slug}`} share="morph">
             <Image
               src={product.image_url}
               alt={product.name}
@@ -42,26 +51,26 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
         </div>
         <div className="p-5">
           <div className="flex items-start justify-between mb-3">
-            <ViewTransition name={`product-title-${product.slug}`} share="morph">
+            <ViewTransition name={`${vtPrefix}product-title-${product.slug}`} share="morph">
               <h3 className="font-bold text-white text-lg line-clamp-2 group-hover:text-blue-300 transition-colors duration-300">
                 {product.name}
               </h3>
             </ViewTransition>
-            <ViewTransition name={`product-price-${product.slug}`} share="morph">
+            <ViewTransition name={`${vtPrefix}product-price-${product.slug}`} share="morph">
               <span className="text-green-400 font-bold text-xl ml-2 whitespace-nowrap bg-green-400/10 px-2 py-1 rounded-lg">
                 ${product.price}
               </span>
             </ViewTransition>
           </div>
 
-          <ViewTransition name={`product-description-${product.slug}`} share="morph">
+          <ViewTransition name={`${vtPrefix}product-description-${product.slug}`} share="morph">
             <p className="text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
               {product.description}
             </p>
           </ViewTransition>
 
           <div className="flex items-center justify-between mb-4">
-            <ViewTransition name={`product-brand-${product.slug}`} share="morph">
+            <ViewTransition name={`${vtPrefix}product-brand-${product.slug}`} share="morph">
               <span className="text-xs text-gray-500 font-light">
                 Marca: <span className="text-gray-300 font-medium">{product.brand}</span>
               </span>

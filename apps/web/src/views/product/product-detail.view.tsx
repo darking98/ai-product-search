@@ -3,13 +3,19 @@ import { ViewTransition } from 'react'
 import { Product } from '@/interfaces/product.interface'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 interface ProductDetailViewProps {
   product: Product
-  backUrl?: string
 }
 
-export default function ProductDetailView({ product, backUrl = '/' }: ProductDetailViewProps) {
+export default function ProductDetailView({ product }: ProductDetailViewProps) {
+  const searchParams = useSearchParams()
+  const backUrl = searchParams.get('from') || '/'
+  const vtContext = searchParams.get('vtContext')
+
+  // Create unique ViewTransition names with optional context
+  const vtPrefix = vtContext ? `${vtContext}-` : ''
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       {/* Header con botón de volver */}
@@ -57,7 +63,7 @@ export default function ProductDetailView({ product, backUrl = '/' }: ProductDet
             {/* Imagen del producto */}
             <div className="bg-[#1a1a1a] rounded-lg overflow-hidden border border-gray-800">
               <div className="relative aspect-square">
-                <ViewTransition name={`product-${product.slug}`} share="morph">
+                <ViewTransition name={`${vtPrefix}product-${product.slug}`} share="morph">
                   <Image
                     src={product.image_url}
                     alt={product.name}
@@ -80,7 +86,7 @@ export default function ProductDetailView({ product, backUrl = '/' }: ProductDet
                 )}
                 {product.brand && (
                   <ViewTransition
-                    name={`product-brand-${product.slug}`}
+                    name={`${vtPrefix}product-brand-${product.slug}`}
                     share="morph"
                   >
                     <span className="text-gray-400">
@@ -93,7 +99,7 @@ export default function ProductDetailView({ product, backUrl = '/' }: ProductDet
 
               {/* Nombre del producto */}
               <ViewTransition
-                name={`product-title-${product.slug}`}
+                name={`${vtPrefix}product-title-${product.slug}`}
                 share="morph"
               >
                 <h1 className="text-4xl font-bold">{product.name}</h1>
@@ -101,7 +107,7 @@ export default function ProductDetailView({ product, backUrl = '/' }: ProductDet
 
               {/* Precio */}
               <ViewTransition
-                name={`product-price-${product.slug}`}
+                name={`${vtPrefix}product-price-${product.slug}`}
                 share="morph"
               >
                 <div className="flex items-baseline gap-2">
@@ -132,7 +138,7 @@ export default function ProductDetailView({ product, backUrl = '/' }: ProductDet
                 <div className="border-t border-gray-800 pt-6">
                   <h2 className="text-xl font-semibold mb-3">Descripción</h2>
                   <ViewTransition
-                    name={`product-description-${product.slug}`}
+                    name={`${vtPrefix}product-description-${product.slug}`}
                     share="morph"
                   >
                     <p className="text-gray-300 leading-relaxed">

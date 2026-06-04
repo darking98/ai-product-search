@@ -16,19 +16,15 @@ interface PageProps {
   params: Promise<{
     productSlug: string
   }>
-  searchParams?: Promise<{
-    from?: string
-  }>
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
+export default async function Page({ params }: PageProps) {
   const { productSlug } = await params
-  const search = await searchParams
   const product = await getProductBySlug(productSlug)
 
   if (!product) {
     notFound()
   }
 
-  return <ProductDetailView product={product} backUrl={search?.from || '/'} />
+  return <ProductDetailView product={product} />
 }
